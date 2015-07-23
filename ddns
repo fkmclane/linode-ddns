@@ -14,7 +14,7 @@ else
 fi
 
 if [ "$ipv4" ]; then
-  response=$(linode domain record-update "$zone" A "$label" "$ipv4" --api-key "$key")
+  response=$(LINODE_API_KEY="$key" linode domain record-update "$zone" A "$label" "$ipv4" 2>&1)
   if [ $? != 0 ]; then
     code=$((code+1))
     echo 'IPv4 Update ('"${label}.${zone}"' -> '"$ipv4"'): '"$response" >&2
@@ -28,7 +28,7 @@ else
 fi
 
 if [ "$ipv6" ]; then
-  response=$(linode domain record-update "$zone" AAAA "$label" "$ipv6" --api-key "$key")
+  response=$(LINODE_API_KEY="$key" linode domain record-update "$zone" AAAA "$label" "$ipv6" 2>&1)
   if [ $? != 0 ]; then
     code=$((code+1))
     echo 'IPv6 Update ('"${label}.${zone}"' -> '"$ipv6"'): '"$response" >&2
